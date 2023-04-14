@@ -1,0 +1,29 @@
+{
+  "name": "realz-lambda-websocket",
+  "version": "1.0.0",
+  "description": "Websockets lambda with Serverless Framework + Typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Lambda",
+    "Websockets",
+    "AWS",
+    "Typescript"
+  ],
+  "author": "Jair Orlando Huaman Bellido",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1359.0",
+    "inversify": "^6.0.1",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.114",
+    "esbuild": "^0.17.16",
+    "serverless-esbuild": "^1.43.0",
+    "serverless-offline": "^12.0.4",
+    "typescript": "^5.0.4"
+  }
+}
