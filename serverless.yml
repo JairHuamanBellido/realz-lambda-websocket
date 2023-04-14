@@ -1,0 +1,27 @@
+service: realz
+
+frameworkVersion: "3"
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: us-east-1
+  deploymentPrefix: ${file(./env/variables.js):folderName}
+  deploymentBucket:
+    name: ${file(./env/variables.js):bucketName}
+
+  websocketsApiName: realz
+  websocketsApiRouteSelectionExpression: $request.body.action
+  websocketsDescription: Websocket that handling user activities
+
+functions:
+  onConnect:
+    handler: src/functions/onConnect.handler
+    events:
+      - websocket:
+          route: $connect
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
