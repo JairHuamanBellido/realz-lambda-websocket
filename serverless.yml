@@ -6,7 +6,7 @@ useDotenv: true
 provider:
   name: aws
   runtime: nodejs16.x
-  region: us-east-1
+  region: us-east-2
   deploymentPrefix: ${file(./env/variables.js):folderName}
   deploymentBucket:
     name: ${file(./env/variables.js):bucketName}
