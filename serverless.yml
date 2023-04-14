@@ -14,7 +14,15 @@ provider:
   websocketsApiName: realz
   websocketsApiRouteSelectionExpression: $request.body.action
   websocketsDescription: Websocket that handling user activities
-
+  httpApi:
+    cors:
+      allowedOrigins: "*"
+      allowedHeaders: "*"
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
 functions:
   onConnect:
     handler: src/functions/onConnect.handler
