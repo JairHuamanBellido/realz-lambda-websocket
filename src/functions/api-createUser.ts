@@ -22,6 +22,7 @@ export const handler = async (event: APIGatewayEvent) => {
       body: isValidBody,
     };
   } catch (error) {
+    console.log(error);
     return {
       statusCode: 500,
       body: error,
