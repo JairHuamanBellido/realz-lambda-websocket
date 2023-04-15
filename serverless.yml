@@ -10,17 +10,55 @@ provider:
   deploymentPrefix: ${file(./env/variables.js):folderName}
   deploymentBucket:
     name: ${file(./env/variables.js):bucketName}
-
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: "dynamodb:*"
+          Resource: "arn:aws:dynamodb:*"
   websocketsApiName: realz
   websocketsApiRouteSelectionExpression: $request.body.action
   websocketsDescription: Websocket that handling user activities
-
+  httpApi:
+    cors:
+      allowedOrigins: "*"
+      allowedHeaders: "*"
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-users
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 functions:
   onConnect:
     handler: src/functions/onConnect.handler
     events:
       - websocket:
           route: $connect
+  createUser:
+    name: ${self:service}-${sls:stage}-createUser
+    handler: src/functions/api-createUser.handler
+    description: Lambda function for creating user
+    events:
+      - httpApi:
+          method: POST
+          path: /users
+    tags:
+      project: ${self:service}
 
 plugins:
   - serverless-esbuild
