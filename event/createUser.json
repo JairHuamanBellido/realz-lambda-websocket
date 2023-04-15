@@ -1,4 +1,7 @@
 {
-  "id": "123",
-  "name": "Jair"
+  "body": {
+    "id": "v123",
+    "name": "Jair"
+  },
+  "isBase64Encoded": false
 }

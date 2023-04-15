@@ -8,7 +8,7 @@ import { CreateUserUseCase } from "../domain/user/use-case/CreateUserUseCase";
 
 export const handler = async (event: APIGatewayEvent) => {
   try {
-    const newUser = plainToInstance(CreateUserDTO, event);
+    const newUser = plainToInstance(CreateUserDTO, JSON.parse(event.body));
     const isValidBody = await isValidSchema(newUser);
     await DIcontainer.resolve(CreateUserUseCase).execute(newUser);
     if (typeof isValidBody === "boolean") {
