@@ -1,13 +1,12 @@
 import { injectable } from "inversify";
-import { DynamoDB } from "aws-sdk";
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { IDynamoDBRepository } from "../interfaces/IDynamoDBRepository.interface";
 
 @injectable()
 export abstract class DynamoDBRepository<T> implements IDynamoDBRepository<T> {
-  public readonly db: DynamoDB.DocumentClient;
+  public readonly db: DynamoDB;
   constructor() {
-    this.db = new DynamoDB.DocumentClient({
-      apiVersion: "2012-08-10",
+    this.db = new DynamoDB({
       region: "us-east-2",
     });
   }
