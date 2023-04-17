@@ -10,11 +10,13 @@ export const handler = async (event: APIGatewayEvent) => {
   try {
     const newUser = plainToInstance(CreateUserDTO, JSON.parse(event.body));
     const isValidBody = await isValidSchema(newUser);
-    await DIcontainer.resolve(CreateUserUseCase).execute(newUser);
     if (typeof isValidBody === "boolean") {
+      const user = await DIcontainer.resolve(CreateUserUseCase).execute(
+        newUser
+      );
       return {
         statusCode: 201,
-        body: JSON.stringify({ hello: "world" }),
+        body: JSON.stringify(user),
       };
     }
     return {
