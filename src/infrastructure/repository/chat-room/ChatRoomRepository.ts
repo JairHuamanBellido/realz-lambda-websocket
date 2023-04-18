@@ -27,4 +27,14 @@ export class ChatRoomRepository extends DynamoDBRepository<IChatRoom> {
 
     return res;
   }
+
+  async getAll(): Promise<IChatRoom[]> {
+    const rooms = await this.db
+      .scan({
+        TableName: this.tableName,
+      })
+      .then((res) => res.Items.map((item) => unmarshall(item) as IChatRoom));
+
+    return rooms;
+  }
 }

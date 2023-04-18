@@ -89,6 +89,16 @@ functions:
           path: /chat-rooms
     tags:
       project: ${self:service}
+  getAllChatRooms:
+    name: ${self:service}-${sls:stage}-getAllChatRooms
+    handler: src/functions/api-getAllChatRooms.handler
+    description: Lambda function for get all chat rooms
+    events:
+      - httpApi:
+          method: GET
+          path: /chat-rooms
+    tags:
+      project: ${self:service}
 
 plugins:
   - serverless-esbuild
