@@ -1,7 +1,8 @@
 {
   "body": {
     "id": "v123",
-    "name": "Jair"
+    "name": "Jair",
+    "authenticated_method": "GUEST"
   },
   "isBase64Encoded": false
 }

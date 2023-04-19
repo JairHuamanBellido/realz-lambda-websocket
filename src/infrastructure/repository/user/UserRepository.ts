@@ -14,9 +14,11 @@ export class UserRepository extends DynamoDBRepository<IUser> {
         },
         TableName: this.tableName,
         ReturnValues: "ALL_NEW",
-        UpdateExpression: "SET fullname = :fullname",
+        UpdateExpression:
+          "SET fullname = :fullname, authenticated_method = :authenticated_method",
         ExpressionAttributeValues: {
           ":fullname": { S: payload.name },
+          ":authenticated_method": { S: payload.authenticated_method },
         },
       })
       .then((res) => unmarshall(res.Attributes) as IUser);
