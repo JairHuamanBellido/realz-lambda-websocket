@@ -17,7 +17,7 @@ export class ChatRoomRepository extends DynamoDBRepository<IChatRoom> {
         UpdateExpression:
           "SET owner_id = :owner_id, title = :title, black_list_words = :black_list_words, connections_ids = :connections_ids",
         ExpressionAttributeValues: {
-          ":owner_id": { S: payload.title },
+          ":owner_id": { S: payload.owner_id },
           ":title": { S: payload.title },
           ":black_list_words": { L: payload.black_list_words as [] },
           ":connections_ids": { L: payload.connections_ids as [] },
