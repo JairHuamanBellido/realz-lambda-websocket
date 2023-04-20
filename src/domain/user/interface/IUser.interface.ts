@@ -2,6 +2,7 @@ import { EnumUserAuthenticatedMethod } from "../enum/user-authenticated-method.e
 
 export interface IUser {
   readonly id: string;
-  readonly name: string;
+  readonly fullname: string;
   readonly authenticated_method: EnumUserAuthenticatedMethod;
+  readonly connectionId: string;
 }

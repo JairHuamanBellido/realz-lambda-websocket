@@ -1,0 +1,11 @@
+{
+  "requestContext": {
+    "hello": "world",
+    "connectionId": "DpYEEfGCCYcCITg="
+  },
+  "body": {
+    "action": "joinChatRoom",
+    "chatroom_id": "c5ed438a-0407-406b-97b5-a98da05aa44a",
+    "user_id": "askdjj21"
+  }
+}

@@ -5,8 +5,8 @@ export const handler = async (event: APIGatewayEvent) => {
     try {
       const connectionId = event.requestContext.connectionId || "";
 
-      console.log(connectionId);
-      return { statusCode: "200" };
+      console.log("[WS- $connect] Connection Id -> ", connectionId);
+      return { statusCode: 200 };
     } catch (e) {
       console.error(e);
     }

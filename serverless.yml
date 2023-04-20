@@ -2,13 +2,12 @@ service: realz
 
 frameworkVersion: "3"
 useDotenv: true
-	
+
 package:
   patterns:
-    - '!node_modules/**'
+    - "!node_modules/**"
   excludeDevDependencies: false
   individually: true
-
 
 provider:
   name: aws
@@ -65,10 +64,21 @@ resources:
           WriteCapacityUnits: 1
 functions:
   onConnect:
+    name: ${self:service}-${sls:stage}-ws-onConnect
+    description: "A websocket that handle connection when user connect to a chat room"
     handler: src/functions/onConnect.handler
     events:
       - websocket:
           route: $connect
+  joinChatRoom:
+    name: ${self:service}-${sls:stage}-ws-joinChatRoom
+    handler: src/functions/ws-joinChatRoom.handler
+    description: "A websocket that handle connection when user connect to a chat room"
+    environment:
+      AWS_WEBSOCKET_URL: ${file(./env/variables.js):websocketUrl}
+    events:
+      - websocket:
+          route: joinChatRoom
   createUser:
     name: ${self:service}-${sls:stage}-createUser
     handler: src/functions/api-createUser.handler
