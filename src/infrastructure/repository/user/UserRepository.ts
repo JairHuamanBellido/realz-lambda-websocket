@@ -17,12 +17,43 @@ export class UserRepository extends DynamoDBRepository<IUser> {
         UpdateExpression:
           "SET fullname = :fullname, authenticated_method = :authenticated_method",
         ExpressionAttributeValues: {
-          ":fullname": { S: payload.name },
+          ":fullname": { S: payload.fullname },
           ":authenticated_method": { S: payload.authenticated_method },
         },
       })
       .then((res) => unmarshall(res.Attributes) as IUser);
-    console.log(res);
     return res;
+  }
+
+  async updateConnectionId(payload: IUser): Promise<IUser> {
+    const res = await this.db
+      .updateItem({
+        Key: {
+          id: { S: payload.id },
+        },
+        TableName: this.tableName,
+        ReturnValues: "ALL_NEW",
+        UpdateExpression: "SET connection_id = :connection_id",
+        ExpressionAttributeValues: {
+          ":connection_id": { S: payload.connectionId },
+        },
+      })
+      .then((res) => unmarshall(res.Attributes) as IUser);
+
+    return res;
+  }
+
+  async findById(id: string): Promise<IUser | undefined> {
+    const user = await this.db
+      .scan({
+        TableName: this.tableName,
+        FilterExpression: "id = :id",
+        ExpressionAttributeValues: {
+          ":id": { S: id },
+        },
+      })
+      .then((res) => res.Items.map((item) => unmarshall(item) as IUser));
+
+    return user[0];
   }
 }
