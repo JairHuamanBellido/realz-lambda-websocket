@@ -89,6 +89,14 @@ functions:
           path: /users
     tags:
       project: ${self:service}
+  findUserById:
+    name: ${self:service}-${sls:stage}-findUserById
+    handler: src/functions/api-findUserById.handler
+    description: Lambda function for finding user by id
+    events:
+      - httpApi:
+          method: GET
+          path: /users/{id}
   createChatRoom:
     name: ${self:service}-${sls:stage}-createChatRoom
     handler: src/functions/api-createChatRoom.handler

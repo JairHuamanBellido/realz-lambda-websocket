@@ -1,5 +1,11 @@
-import { IsDefined,  IsEnum,  IsNotEmpty,  IsString } from "class-validator";
-import { EnumUserAuthenticatedMethod} from '../../domain/user/enum/user-authenticated-method.enum'
+import {
+  IsDefined,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+} from "class-validator";
+import { EnumUserAuthenticatedMethod } from "../../domain/user/enum/user-authenticated-method.enum";
 export class CreateUserDTO {
   @IsDefined()
   @IsString()
@@ -14,8 +20,14 @@ export class CreateUserDTO {
   @IsDefined()
   @IsString()
   @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsDefined()
+  @IsString()
+  @IsNotEmpty()
   @IsEnum(EnumUserAuthenticatedMethod, {
-    'message': 'Values must be GITHUB or GUEST'
+    message: "Values must be GITHUB or GUEST",
   })
-  authenticated_method: EnumUserAuthenticatedMethod
+  authenticated_method: EnumUserAuthenticatedMethod;
 }

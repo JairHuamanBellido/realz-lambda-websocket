@@ -10,6 +10,12 @@ export class CreateUserUseCase {
   ) {}
 
   async execute(user: CreateUserDTO) {
-    return await this._userRepository.create(user);
+    return await this._userRepository.create({
+      authenticated_method: user.authenticated_method,
+      connectionId: "",
+      email: user.email,
+      fullname: user.name,
+      id: user.id,
+    });
   }
 }
