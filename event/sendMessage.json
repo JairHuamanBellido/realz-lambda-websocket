@@ -1,0 +1,11 @@
+{
+  "requestContext": {
+    "connectionId": "EJaP9fuRCYcCJCA="
+  },
+  "body": {
+    "action": "sendMessage",
+    "chatroom_id": "54f2bb9c-afed-42e0-81f1-242c03f2ebaf",
+    "sender_id": "38355200",
+    "text": "hola"
+  }
+}

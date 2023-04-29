@@ -18,9 +18,9 @@ export class CreateChatRoomUseCase {
       title: chatRoom.title,
       black_list_words: chatRoom.black_list_words || [],
       connections_ids: [],
+      messages: [],
     };
     const chatroomxyz = await this._chatRoomRepository.create(newChatRoom);
-    
     return chatroomxyz;
   }
 }
