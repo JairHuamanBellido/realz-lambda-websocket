@@ -5,5 +5,5 @@ export interface IUser {
   readonly fullname: string;
   readonly email: string;
   readonly authenticated_method: EnumUserAuthenticatedMethod;
-  readonly connectionId: string;
+  readonly connection_id: string;
 }

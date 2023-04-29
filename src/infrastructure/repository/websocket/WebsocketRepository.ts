@@ -26,4 +26,16 @@ export class WebsocketRepository {
       ),
     });
   }
+
+  async leaveChatRoomEvent(connectionId: string, user: IUser): Promise<void> {
+    await this._websocket.postToConnection({
+      ConnectionId: connectionId,
+      Data: Buffer.from(
+        JSON.stringify({
+          action: "LEAVE ROOM",
+          message: `${user.fullname} leave chat room`,
+        })
+      ),
+    });
+  }
 }

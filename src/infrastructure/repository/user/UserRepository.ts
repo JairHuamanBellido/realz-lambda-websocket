@@ -36,7 +36,7 @@ export class UserRepository extends DynamoDBRepository<IUser> {
         ReturnValues: "ALL_NEW",
         UpdateExpression: "SET connection_id = :connection_id",
         ExpressionAttributeValues: {
-          ":connection_id": { S: payload.connectionId },
+          ":connection_id": { S: payload.connection_id },
         },
       })
       .then((res) => unmarshall(res.Attributes) as IUser);
