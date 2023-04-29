@@ -88,6 +88,15 @@ functions:
     events:
       - websocket:
           route: leaveChatRoom
+  sendMessage:
+    name: ${self:service}-${sls:stage}-ws-sendMessage
+    handler: src/functions/ws-sendMessage.handler
+    description: "A websocket that handle send of message into a chat room"
+    environment:
+      AWS_WEBSOCKET_URL: ${file(./env/variables.js):websocketUrl}
+    events:
+      - websocket:
+          route: sendMessage
   createUser:
     name: ${self:service}-${sls:stage}-createUser
     handler: src/functions/api-createUser.handler

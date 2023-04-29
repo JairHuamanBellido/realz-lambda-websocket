@@ -73,4 +73,24 @@ export class ChatRoomRepository extends DynamoDBRepository<IChatRoom> {
 
     return chatroom;
   }
+
+  async updateMessages(payload: IChatRoom): Promise<IChatRoom> {
+    console.log(payload.messages.map((e) => e));
+    const chatRoom = await this.db
+      .updateItem({
+        Key: {
+          id: { S: payload.id },
+        },
+        TableName: this.tableName,
+        ReturnValues: "ALL_NEW",
+        UpdateExpression: "SET messages = :messages",
+        ExpressionAttributeValues: {
+          ":messages": {
+            L: marshall(payload.messages) as any,
+          },
+        },
+      })
+      .then((res) => unmarshall(res.Attributes) as IChatRoom);
+    return chatRoom;
+  }
 }
