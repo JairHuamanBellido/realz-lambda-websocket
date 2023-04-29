@@ -1,0 +1,10 @@
+{
+  "requestContext": {
+    "connectionId": "EJaP9fuRCYcCJCA="
+  },
+  "body": {
+    "action": "leaveChatRoom",
+    "chatroom_id": "54f2bb9c-afed-42e0-81f1-242c03f2ebaf",
+    "user_id": "1ecfbd45-4b46-4ffb-99e6-bf3ff8ecd09c"
+  }
+}

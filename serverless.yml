@@ -79,6 +79,15 @@ functions:
     events:
       - websocket:
           route: joinChatRoom
+  leaveChatRoom:
+    name: ${self:service}-${sls:stage}-ws-leaveChatRoom
+    handler: src/functions/ws-leaveChatRoom.handler
+    description: "A websocket that handle connection when user disconnect to a chat room"
+    environment:
+      AWS_WEBSOCKET_URL: ${file(./env/variables.js):websocketUrl}
+    events:
+      - websocket:
+          route: leaveChatRoom
   createUser:
     name: ${self:service}-${sls:stage}-createUser
     handler: src/functions/api-createUser.handler

@@ -39,7 +39,7 @@ export class JoinChatRoomUseCase {
       // Update connectionId of User
       await this._userRepository.updateConnectionId({
         ...userTarget,
-        connectionId: connection_id,
+        connection_id: connection_id,
       });
 
       // Notify all the users in the chat room

@@ -12,7 +12,7 @@ export class CreateUserUseCase {
   async execute(user: CreateUserDTO) {
     return await this._userRepository.create({
       authenticated_method: user.authenticated_method,
-      connectionId: "",
+      connection_id: "",
       email: user.email,
       fullname: user.name,
       id: user.id,
