@@ -42,8 +42,8 @@ export class LeaveChatRoomUseCase {
       newChatRooom
     );
 
-    chatRoomUpdated.connections_ids.forEach(async (connectionId: string) => {
+    for await (const connectionId of chatRoomUpdated.connections_ids) {
       await this._websocketRepository.leaveChatRoomEvent(connectionId, user);
-    });
+    }
   }
 }

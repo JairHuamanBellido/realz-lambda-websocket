@@ -43,12 +43,12 @@ export class JoinChatRoomUseCase {
       });
 
       // Notify all the users in the chat room
-      chatRoom.connections_ids.forEach(async (connectionId: string) => {
+      for await (const connectionId of chatRoom.connections_ids) {
         await this._websocketRepository.joinChatRoomEvent(
           connectionId,
           userTarget
         );
-      });
+      }
 
       // Update connection ids of chat rooms
       await this._chatRoomRepository.updateConnectionIds({
