@@ -135,6 +135,14 @@ functions:
           path: /chat-rooms
     tags:
       project: ${self:service}
+  findChatRoomById:
+    name: ${self:service}-${sls:stage}-findChatRoomById
+    handler: src/functions/api-findChatRoomById.handler
+    description: Lambda function for find chat room by id
+    events:
+      - httpApi:
+          method: GET
+          path: /chat-rooms/{id}
 
 plugins:
   - serverless-esbuild
