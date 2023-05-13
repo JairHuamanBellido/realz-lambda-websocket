@@ -12,8 +12,15 @@ export const handler = async (event: APIGatewayEvent) => {
 
       return {
         statusCode: 200,
-        message: "Disconnected",
+        body: "Disconnected",
       };
-    } catch (error) {}
+    } catch (error) {
+
+      console.error(error);
+      return {
+        statusCode: 500,
+        body: error
+      }
+    }
   }
 };
