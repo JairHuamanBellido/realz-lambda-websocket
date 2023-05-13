@@ -57,4 +57,24 @@ export class UserRepository extends DynamoDBRepository<IUser> {
 
     return user[0];
   }
+  async findByConnectionId(connectionId: string): Promise<IUser | undefined> {
+    const users = await this.db
+      .scan({
+        TableName: this.tableName,
+        FilterExpression: "connection_id = :connection_id",
+        ExpressionAttributeValues: {
+          ":connection_id": { S: connectionId },
+        },
+      })
+      .then((res) => res.Items.map((user) => unmarshall(user) as IUser));
+
+    return users[0];
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.db.deleteItem({
+      TableName: this.tableName,
+      Key: { id: { S: id } },
+    });
+  }
 }

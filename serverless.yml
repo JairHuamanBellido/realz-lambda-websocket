@@ -70,6 +70,13 @@ functions:
     events:
       - websocket:
           route: $connect
+  onDisconnect:
+    name: ${self:service}-${sls:stage}-ws-onDisconnect
+    description: "A websocket that handle disconnect event"
+    handler: src/functions/onDisconnect.handler
+    events:
+      - websocket:
+          route: $disconnect  
   joinChatRoom:
     name: ${self:service}-${sls:stage}-ws-joinChatRoom
     handler: src/functions/ws-joinChatRoom.handler
