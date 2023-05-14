@@ -3,12 +3,16 @@ import { ChatRoomRepository } from "../../../infrastructure/repository/chat-room
 import { IChatRoom } from "../interface/IChatRoom.interface";
 import { v4 as uuidv4 } from "uuid";
 import { CreateChatRoomDTO } from "../../../application/dto/CreateChatRoomDTO";
+import { UserRepository } from "../../../infrastructure/repository/user/UserRepository";
+import { EnumUserAuthenticatedMethod } from "../../user/enum/user-authenticated-method.enum";
 
 @injectable()
 export class CreateChatRoomUseCase {
   constructor(
     @inject(ChatRoomRepository)
-    private readonly _chatRoomRepository: ChatRoomRepository
+    private readonly _chatRoomRepository: ChatRoomRepository,
+    @inject(UserRepository)
+    private readonly _userRepository: UserRepository
   ) {}
 
   async execute(chatRoom: CreateChatRoomDTO): Promise<IChatRoom> {
@@ -20,7 +24,12 @@ export class CreateChatRoomUseCase {
       connections_ids: [],
       messages: [],
     };
-    const chatroomxyz = await this._chatRoomRepository.create(newChatRoom);
-    return chatroomxyz;
+    const owner = await this._userRepository.findById(chatRoom.owner_id);
+
+    if (owner.authenticated_method === EnumUserAuthenticatedMethod.GITHUB) {
+      const chatroom = await this._chatRoomRepository.create(newChatRoom);
+      return chatroom;
+    }
+    throw new Error("Guest users can't create chatroom");
   }
 }
