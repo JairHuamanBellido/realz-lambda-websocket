@@ -23,6 +23,7 @@ export class CreateChatRoomUseCase {
       black_list_words: chatRoom.black_list_words || [],
       connections_ids: [],
       messages: [],
+      ban_list:[],
     };
     const owner = await this._userRepository.findById(chatRoom.owner_id);
 

@@ -75,7 +75,6 @@ export class ChatRoomRepository extends DynamoDBRepository<IChatRoom> {
   }
 
   async updateMessages(payload: IChatRoom): Promise<IChatRoom> {
-    console.log(payload.messages.map((e) => e));
     const chatRoom = await this.db
       .updateItem({
         Key: {
@@ -91,6 +90,26 @@ export class ChatRoomRepository extends DynamoDBRepository<IChatRoom> {
         },
       })
       .then((res) => unmarshall(res.Attributes) as IChatRoom);
+    return chatRoom;
+  }
+
+  async updateBanList(payload: IChatRoom): Promise<IChatRoom> {
+    const chatRoom = await this.db
+      .updateItem({
+        Key: {
+          id: { S: payload.id },
+        },
+        TableName: this.tableName,
+        ReturnValues: "ALL_NEW",
+        UpdateExpression: "SET ban_list = :ban_list",
+        ExpressionAttributeValues: {
+          ":ban_list": {
+            L: marshall(payload.ban_list) as any,
+          },
+        },
+      })
+      .then((res) => unmarshall(res.Attributes) as IChatRoom);
+
     return chatRoom;
   }
 }

@@ -150,6 +150,16 @@ functions:
       - httpApi:
           method: GET
           path: /chat-rooms/{id}
+  banUser:
+    name: ${self:service}-${sls:stage}-banUser
+    handler: src/functions/api-banUser.handler
+    description: Lambda function for ban a user from chatroom
+    environment:
+      AWS_WEBSOCKET_URL: ${file(./env/variables.js):websocketUrl}
+    events:
+      - httpApi:
+          method: POST
+          path: /chat-rooms/ban-user
 
 plugins:
   - serverless-esbuild
