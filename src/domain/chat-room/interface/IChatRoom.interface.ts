@@ -7,4 +7,5 @@ export interface IChatRoom {
   readonly black_list_words: Array<string>;
   readonly connections_ids: Array<string>;
   readonly messages: Array<IMessage>;
+  readonly ban_list: Array<string>;
 }

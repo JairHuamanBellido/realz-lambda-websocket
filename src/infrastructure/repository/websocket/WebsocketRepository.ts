@@ -56,4 +56,16 @@ export class WebsocketRepository {
       ),
     });
   }
+
+  async notifyBanUser(connectionId: string): Promise<void> {
+    await this._websocket.postToConnection({
+      ConnectionId: connectionId,
+      Data: Buffer.from(
+        JSON.stringify({
+          action: "NOTIFY BAN USER",
+          message: "You've been banned from the chatroom",
+        })
+      ),
+    });
+  }
 }
