@@ -17,9 +17,9 @@ export class LeaveChatRoomUseCase {
   ) {}
 
   async execute({ chatroom_id, user_id }: ILeaveChatRoomUseCase) {
-    const user = await this._userRepository.findById(user_id);
+    const userTarget = await this._userRepository.findById(user_id);
 
-    if (!user) {
+    if (!userTarget) {
       return new Error("Not founded");
     }
 
@@ -29,21 +29,24 @@ export class LeaveChatRoomUseCase {
       return new Error("Not founded");
     }
 
-    const newConnectionIds = chatroom.connections_ids.filter(
-      (connection) => connection !== user.connection_id
+    const newConnected = chatroom.connected.filter(
+      (user) => user.id !== user.id
     );
 
     const newChatRooom: IChatRoom = {
       ...chatroom,
-      connections_ids: newConnectionIds,
+      connected: newConnected,
     };
 
     const chatRoomUpdated = await this._chatRoomRepository.updateConnectionIds(
       newChatRooom
     );
 
-    for await (const connectionId of chatRoomUpdated.connections_ids) {
-      await this._websocketRepository.leaveChatRoomEvent(connectionId, user);
+    for await (const user of chatRoomUpdated.connected) {
+      await this._websocketRepository.leaveChatRoomEvent(
+        user.connection_id,
+        userTarget
+      );
     }
   }
 }

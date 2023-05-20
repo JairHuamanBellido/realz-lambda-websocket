@@ -21,9 +21,9 @@ export class CreateChatRoomUseCase {
       owner_id: chatRoom.owner_id,
       title: chatRoom.title,
       black_list_words: chatRoom.black_list_words || [],
-      connections_ids: [],
+      connected: [],
       messages: [],
-      ban_list:[],
+      ban_list: [],
     };
     const owner = await this._userRepository.findById(chatRoom.owner_id);
 

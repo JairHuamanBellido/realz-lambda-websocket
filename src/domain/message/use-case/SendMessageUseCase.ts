@@ -26,7 +26,7 @@ export class SendMessageUseCase {
       text,
     };
 
-    const user = await this._userRepository.findById(sender_id);
+    const userTarget = await this._userRepository.findById(sender_id);
 
     const chatRoom = await this._chatRoomRepository.getById(chatroom_id);
 
@@ -39,11 +39,11 @@ export class SendMessageUseCase {
       messages: [...chatRoom.messages, message],
     });
 
-    for await (const connectionId of chatRoom.connections_ids) {
+    for await (const user of chatRoom.connected) {
       await this._websocketRepository.sendMessageToAllInChatRoom(
-        connectionId,
+        user.connection_id,
         message,
-        user
+        userTarget
       );
     }
   }

@@ -15,14 +15,16 @@ export class WebsocketRepository {
     });
   }
 
-  async joinChatRoomEvent(connectionId: string, user: IUser): Promise<void> {
+  async joinChatRoomEvent(
+    connectionId: string,
+    user: Pick<IUser, "id" | "fullname" | "connection_id">
+  ): Promise<void> {
     await this._websocket.postToConnection({
       ConnectionId: connectionId,
       Data: Buffer.from(
         JSON.stringify({
           action: "JOIN ROOM",
-          message: `${user.fullname} is joined`,
-          user_authentication: user.authenticated_method,
+          message: user,
         })
       ),
     });
