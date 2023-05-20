@@ -76,7 +76,7 @@ functions:
     handler: src/functions/onDisconnect.handler
     events:
       - websocket:
-          route: $disconnect  
+          route: $disconnect
   joinChatRoom:
     name: ${self:service}-${sls:stage}-ws-joinChatRoom
     handler: src/functions/ws-joinChatRoom.handler
@@ -160,6 +160,14 @@ functions:
       - httpApi:
           method: POST
           path: /chat-rooms/ban-user
+  unbanUser:
+    name: ${self:service}-${sls:stage}-unbanUser
+    handler: src/functions/api-unbanUser.handler
+    description: Lambda function for unban a user from chatroom
+    events:
+      - httpApi:
+          method: POST
+          path: /chat-rooms/unban-user
 
 plugins:
   - serverless-esbuild
