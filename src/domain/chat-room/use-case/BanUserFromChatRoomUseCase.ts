@@ -28,12 +28,15 @@ export class BanUserFromChatRoomUseCase {
 
     await this._chatRoomRepository.updateBanList({
       ...chatroom,
-      ban_list: [
-        ...chatroom.ban_list.filter((userId) => userId !== payload.user_id),
-      ],
+      ban_list: [...chatroom.ban_list, user.id],
     });
     if (!!user.connection_id) {
-      await this._websocketRepository.notifyBanUser(user.connection_id);
+      await this._websocketRepository
+        .notifyBanUser(user.connection_id)
+        .catch((e) => {
+          console.log("could send ");
+          return;
+        });
     }
   }
 }
