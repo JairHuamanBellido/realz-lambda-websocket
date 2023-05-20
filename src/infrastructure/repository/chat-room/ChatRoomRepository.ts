@@ -15,12 +15,12 @@ export class ChatRoomRepository extends DynamoDBRepository<IChatRoom> {
         TableName: this.tableName,
         ReturnValues: "ALL_NEW",
         UpdateExpression:
-          "SET owner_id = :owner_id, title = :title, black_list_words = :black_list_words, connections_ids = :connections_ids",
+          "SET owner_id = :owner_id, title = :title, black_list_words = :black_list_words, connected = :connected",
         ExpressionAttributeValues: {
           ":owner_id": { S: payload.owner_id },
           ":title": { S: payload.title },
           ":black_list_words": { L: payload.black_list_words as [] },
-          ":connections_ids": { L: payload.connections_ids as [] },
+          ":connected": { L: payload.connected as [] },
         },
       })
       .then((res) => unmarshall(res.Attributes) as IChatRoom);
@@ -60,12 +60,10 @@ export class ChatRoomRepository extends DynamoDBRepository<IChatRoom> {
         },
         TableName: this.tableName,
         ReturnValues: "ALL_NEW",
-        UpdateExpression: "SET connections_ids = :connections_ids",
+        UpdateExpression: "SET connected = :connected",
         ExpressionAttributeValues: {
-          ":connections_ids": {
-            L: payload.connections_ids.map((connectionId) =>
-              marshall(connectionId)
-            ) as any,
+          ":connected": {
+            L: marshall(payload.connected) as any,
           },
         },
       })

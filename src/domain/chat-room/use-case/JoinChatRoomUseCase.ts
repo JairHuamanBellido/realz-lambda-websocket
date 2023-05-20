@@ -36,6 +36,12 @@ export class JoinChatRoomUseCase {
         return undefined;
       }
 
+      const userInfo: (typeof chatRoom.connected)[0] = {
+        connection_id: userTarget.connection_id,
+        fullname: userTarget.fullname,
+        id: userTarget.id,
+      };
+
       // Update connectionId of User
       await this._userRepository.updateConnectionId({
         ...userTarget,
@@ -43,18 +49,19 @@ export class JoinChatRoomUseCase {
       });
 
       // Notify all the users in the chat room
-      for await (const connectionId of chatRoom.connections_ids) {
+      for await (const user of chatRoom.connected) {
         await this._websocketRepository.joinChatRoomEvent(
-          connectionId,
-          userTarget
+          user.connection_id,
+          userInfo
         );
       }
 
       // Update connection ids of chat rooms
       await this._chatRoomRepository.updateConnectionIds({
         ...chatRoom,
-        connections_ids: [...chatRoom.connections_ids, connection_id],
+        connected: [...chatRoom.connected, userInfo],
       });
+
       return chatRoom;
     } catch (error) {
       console.error(error);
