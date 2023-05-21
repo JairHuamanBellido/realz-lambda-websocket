@@ -16,18 +16,26 @@ export class CreateChatRoomUseCase {
   ) {}
 
   async execute(chatRoom: CreateChatRoomDTO): Promise<IChatRoom> {
+    const host = await this._userRepository.findById(chatRoom.owner_id);
+
+    if (!host) {
+      throw new Error("User not found");
+    }
     const newChatRoom: IChatRoom = {
       id: uuidv4(),
-      owner_id: chatRoom.owner_id,
+      host: {
+        connection_id: host.connection_id,
+        fullname: host.fullname,
+        id: host.id,
+      },
       title: chatRoom.title,
       black_list_words: chatRoom.black_list_words || [],
       connected: [],
       messages: [],
       ban_list: [],
     };
-    const owner = await this._userRepository.findById(chatRoom.owner_id);
 
-    if (owner.authenticated_method === EnumUserAuthenticatedMethod.GITHUB) {
+    if (host.authenticated_method === EnumUserAuthenticatedMethod.GITHUB) {
       const chatroom = await this._chatRoomRepository.create(newChatRoom);
       return chatroom;
     }
