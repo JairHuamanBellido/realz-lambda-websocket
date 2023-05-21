@@ -15,9 +15,9 @@ export class ChatRoomRepository extends DynamoDBRepository<IChatRoom> {
         TableName: this.tableName,
         ReturnValues: "ALL_NEW",
         UpdateExpression:
-          "SET owner_id = :owner_id, title = :title, black_list_words = :black_list_words, connected = :connected",
+          "SET host = :host, title = :title, black_list_words = :black_list_words, connected = :connected",
         ExpressionAttributeValues: {
-          ":owner_id": { S: payload.owner_id },
+          ":host": { M: marshall(payload.host) },
           ":title": { S: payload.title },
           ":black_list_words": { L: payload.black_list_words as [] },
           ":connected": { L: payload.connected as [] },
